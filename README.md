@@ -1,7 +1,7 @@
 # Lets Trade 5e
 A Foundry VTT module which allows you to send and receive items from other players.
 
-This module was created during the Decemeber 2020 Hackathone.
+This module was created during the December 2020 Hackathone.
 
 ## Features
 
@@ -18,6 +18,6 @@ The second player must then confirm the trade with a prompt on their screen, at 
 
 ## Known issues
 
-- Player is allowed to open trade menu even if no other players are online.
-- Sheets where player only have observer permissions might show trade icons.
-- Lack of support for trading with unclaimed player character.
+- Player can open the trade window when no other players are online.
+- Player might see trade icons on sheets without owner permissions.
+- Lack of support for trading with unclaimed player characters.
