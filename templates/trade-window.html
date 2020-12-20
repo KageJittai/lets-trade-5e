@@ -11,6 +11,18 @@
     </div>
   </div>
 
+  {{#if showquantity}}
+  <div class="form-group">
+    <label>Quantity</label>
+    <input class="quantity-input" type="text" data-dtype="number" value="{{quantity}}" />
+  </div>
+  <div class="flexrow">
+    <button class="quantity-quick-btn" data-qsize="one">One</button>
+    <button class="quantity-quick-btn" data-qsize="half">Half</button>
+    <button class="quantity-quick-btn" data-qsize="all">All</button>
+  </div>
+  {{/if}}
+
   <div class="form-group stacked">
     <label>Select a character</label>
     <ul class="directory-list">

@@ -1,3 +1,4 @@
 export const Config = {
-    Socket: "LETS_TRADE_5E"
+    Socket: "module.lets-trade-5e",
+    TradeWindowTemplate: "modules/lets-trade-5e/templates/trade-window.html"
 };
