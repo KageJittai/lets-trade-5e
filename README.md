@@ -5,9 +5,9 @@ This module was created during the Decemeber 2020 Hackathone.
 
 ## Features
 
-Allows player characters to trade with one another. Players must be online to trade, and they must have their character selected in the player configuation. When you click on the "scale" icon in an item or next the the currency, you will be prompted with the ability to transfer items or coins from the sheet to another player's sheet.
+Allows player characters to trade with one another. Players must be online to trade, and they must have their character selected in the player configuation. When you click on the "scale" icon in an item or next to the currency, you will be prompted with the ability to transfer items or coins from the sheet to another player's sheet.
 
-The second player must than confirm the trade with a prompt on their screen, at which time, the items or coins will be moved from the first player's sheet to the second player's sheet.
+The second player must then confirm the trade with a prompt on their screen, at which time, the items or coins will be moved from the first player's sheet to the second player's sheet.
 
 ## Supported Sheets
 
