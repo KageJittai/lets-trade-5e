@@ -10,7 +10,6 @@ Hooks.once("setup", async function () {
         let data = packet.data;
         let type = packet.type;
         let handler = packet.handler;
-        console.log("Socket Message", packet);
         if (handler === game.userId) {
             if (type === "request") {
                 receiveTrade(data);
@@ -29,7 +28,6 @@ Hooks.once("setup", async function () {
 
 Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, character) {
     let sheetClasses = sheet.options.classes;
-    console.log(sheet.options.classes);
     if (sheetClasses[0] === "tidy5e") {
         injectTidySheet(element, sheet.actor.id, onCurrencyTradeClick);
     }
