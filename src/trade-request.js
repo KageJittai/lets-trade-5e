@@ -77,28 +77,122 @@ export default class TradeRequest {
         return this.sourceActor.getOwnedItem(this.itemId);
     }
 
+    get currency() {
+        return this._data.currency;
+    }
+
     /**
      * Checks to see if the request can still be performed.
      * 
      * @returns {boolean} If the trade is still valid
      */
     isValid() {
+        // Ensure both source and destination users are logged in.
         if (!game.users.get(this.sourceUserId).active) {
             return false;
         }
-
         if (!game.users.get(this.destinationUserId).active) {
             return false;
         }
 
-        if (!this.sourceActor || !this.item) {
+        // Actors should still exist.
+        if (!this.sourceActor || !this.destinationActor) {
             return false;
         }
 
-        if (this.item.data.data.quantity < this.quantity) {
+        if (this.item) {
+            // Item should exist and have a valid quantity
+            if (this.item.data.data.quantity < this.quantity) {
+                return false;
+            }
+        }
+        else if (this.currency) {
+            // Currency should be between 0 and max.
+            let max = this.sourceActor.data.data.currency;
+            let has_value = false;
+            for (let key in this.currency) {
+                if (this.currency[key] > max[key] || this.currency[key] < 0) {
+                    return false;
+                }
+                if (this.currency[key] > 0) {
+                    has_value = true;
+                }
+            }
+
+            // Some currency should be attached.
+            if (!has_value) {
+                return false;
+            }
+        }
+        else {
+            // No currency or items found.
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Removes the trade value from the source.
+     */
+    applyToSource() {
+        if (this.item) {
+            let item = this.item;
+            if (item.data.data.quantity <= this.quantity) {
+                this.sourceActor.deleteOwnedItem(item.id);
+            }
+            else {
+                item.update({data: {
+                    quantity: item.data.data.quantity - this.quantity
+                }});
+            }
+        }
+        else {
+            let currency = duplicate(this.destinationActor.data.data.currency);
+            for (let key in currency) {
+                currency[key] += this.currency[key];
+            }
+            this.destinationActor.update({
+                data: currency
+            });
+        }
+    }
+
+    /**
+     * Adds the trade value to the destination
+     */
+    applyToDestination() {
+        if (this.item) {
+            let itemData = duplicate(this.item.data);
+            itemData.data.quantity = this.quantity;
+            this.destinationActor.createOwnedItem(itemData);
+        }
+        else {
+            let currency = duplicate(this.sourceActor.data.data.currency);
+            for (let key in currency) {
+                currency[key] -= this.currency[key];
+            }
+            this.sourceActor.update({
+                data: currency
+            });
+        }
+    }
+
+    /**
+     * Abstraction of a name
+     */
+    name() {
+        if (this.item) {
+            return `${this.quantity} ${this.item.name}(s)`;
+        }
+        else {
+            let message = "";
+            for (let key in this.currency) {
+                if (this.currency[key] > 0) {
+                    message += `${this.currency[key]}${key} `;
+                }
+            }
+            return message;
+        }
     }
 }

@@ -27,6 +27,16 @@ Hooks.once("setup", async function () {
 });
 
 Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, character) {
+    let currency = $(".inventory.tab ol.currency", element);
+
+    let currencyIcon = $(`<a class="currency-control currency-trade" title="Send to Player">
+        <i class="fas fa-balance-scale-right"></i>
+    </a>`)[0];
+    currencyIcon.dataset.actorId = sheet.actor.id;
+    currencyIcon.addEventListener("click", onCurrencyTradeClick);
+
+    currency.append(currencyIcon);
+
     let items = $(".inventory.tab .item", element);
     for (let i = 0; i < items.length; i++) {
         let item = items[i];
@@ -60,6 +70,23 @@ function onItemTradeClick(event) {
     const tw = new TradeWindow({
         actorId,
         item,
+        characters
+    });
+    tw.render(true);
+}
+
+function onCurrencyTradeClick(event) {
+    event.preventDefault();
+    const ele = event.currentTarget.closest(".currency-trade");
+
+    const actorId = ele.dataset.actorId;
+    const currency = game.actors.get(actorId).data.data.currency;
+    const characters = getPlayerCharacters(actorId);
+
+    const tw = new TradeWindow({
+        actorId,
+        currencyMax: currency,
+        currency: true,
         characters
     });
     tw.render(true);

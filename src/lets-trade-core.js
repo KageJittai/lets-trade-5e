@@ -51,18 +51,7 @@ export function getPlayerCharacters(excludedId) {
 
 export function completeTrade(tradeData) {
     let tradeRequest = new TradeRequest(tradeData);
-    let item = tradeRequest.item;
-
-    // Remove items from sheet.
-    if (item.data.data.quantity <= tradeRequest.quantity) {
-        tradeRequest.sourceActor.deleteOwnedItem(item.id);
-    }
-    else {
-        item.update({data: {
-            quantity: item.data.data.quantity - tradeRequest.quantity
-        }});
-    }
-
+    tradeRequest.applyToSource();
     ui.notifications.notify(`${tradeRequest.destinationActor.name} accepted your trade request.`);
 }
 
@@ -82,7 +71,7 @@ export function receiveTrade(tradeData) {
     if (tradeRequest.destinationUserId === game.userId) {
         let d = new Dialog({
             title: "Incoming Trade Request",
-            content: `<p>${tradeRequest.sourceActor.name} is sending you ${tradeRequest.quantity} ${tradeRequest.item.name}(s). Do you accept?</p>`,
+            content: `<p>${tradeRequest.sourceActor.name} is sending you ${tradeRequest.name()}. Do you accept?</p>`,
             buttons: {
                 one: {
                     icon: '<i class="fas fa-check"></i>',
@@ -103,11 +92,8 @@ export function receiveTrade(tradeData) {
 
 function tradeConfirmed(tradeRequest) {
     if (tradeRequest.isValid()) {
-        let destinationActor = tradeRequest.destinationActor;
-        let item = tradeRequest.item;
-        let itemData = duplicate(item.data);
-        itemData.data.quantity = tradeRequest.quantity;
-        destinationActor.createOwnedItem(itemData);
+        tradeRequest.applyToDestination();
+        sendChatMessage(tradeRequest);
 
         if (tradeRequest.sourceUserId === tradeRequest.destinationUserId) {
             completeTrade(tradeRequest);
@@ -131,4 +117,21 @@ function tradeDenied(tradeRequest) {
         handler: tradeRequest.sourceUserId,
         type: "denied"
     });
+}
+/**
+ * Outputs a chat message to the GM when a trade is executed.
+ * 
+ * @param {TradeRequest} tradeRequest The finished trade request.
+ */
+function sendChatMessage(tradeRequest) {
+    let chatMessage = {
+        user: game.userId,
+        speaker: ChatMessage.getSpeaker(),
+        content: `${tradeRequest.sourceActor.name} has sent ${tradeRequest.destinationActor.name} ${tradeRequest.name()}`,
+        whisper: game.users.entities.filter(u => u.isGM).map(u => u._id)
+    };
+
+    chatMessage.whisper.push(tradeRequest.sourceUserId);
+
+    ChatMessage.create(chatMessage);
 }

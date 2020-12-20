@@ -11,7 +11,10 @@ export default class TradeWindow extends Application {
         super(options);
         this.data = data;
         this._selectedActor = null;
-        this.quantity = this.data.item.data.data.quantity;
+        if (this.data.item)
+            this.quantity = this.data.item.data.data.quantity;
+
+        this.currency = { pp: 0, gp: 0, ep: 0, sp: 0, cp: 0 };
     }
 
     /** 
@@ -21,8 +24,7 @@ export default class TradeWindow extends Application {
         return mergeObject(super.defaultOptions, {
             template: Config.TradeWindowTemplate,
             classes: ["lets-trade-window"],
-            width: 400,
-            height: 800,
+            width: 500,
             jQuery: true
         });
     }
@@ -43,15 +45,20 @@ export default class TradeWindow extends Application {
 
     /** @override */
     getData(options) {
-        return {
-            item: {
-                name: this.data.item.name,
-                img: this.data.item.img
-            },
+        let data = {
             characters: this.data.characters,
             quantity: this.quantity,
-            showquantity: this.quantity !== 1
+            showquantity: this.quantity !== 1,
+            currency: this.data.currency
         };
+
+        if (this.data.item) {
+            data.item = {
+                name: this.data.item.name,
+                img: this.data.item.img
+            };
+        }
+        return data;
     }
 
     /** @override */
@@ -60,8 +67,22 @@ export default class TradeWindow extends Application {
         html.find("li.actor.directory-item").click(this._selectActor.bind(this));
         html.find("button.cancel").click(this.close.bind(this));
         html.find("button.submit").click(this._submit.bind(this));
+        html.find(".currency-input").change(this._changeCurrency.bind(this));
         html.find(".quantity-input").change(this._changeQuantity.bind(this));
         html.find(".quantity-quick-btn").click(this._quickChangeQuantity.bind(this));
+    }
+
+    /**
+     * Handles the change in quantity
+     * @private
+     */
+    _changeCurrency(event) {
+        event.preventDefault();
+        let value = parseInt(event.target.value);
+        let coin = event.target.dataset.coin;
+        value = clampNumber(value, 0, this.data.currencyMax[coin]);
+        this.currency[coin] = value;
+        event.target.value = value;
     }
 
     /**
@@ -130,17 +151,24 @@ export default class TradeWindow extends Application {
      */
     async _submit() {
         if (this.selectedActor) {
-            console.log(this.selectedActor);
-            sendTradeRequest(new TradeRequest({
+            let tradeData = {
                 sourceUserId: game.userId,
                 sourceActorId: this.data.actorId,
 
                 destinationActorId: this.selectedActor.id,
                 destinationUserId: this.selectedActor.userId,
+            };
 
-                itemId: this.data.item.id,
-                quantity: this.quantity
-            }));
+            if (this.data.currency) {
+                tradeData.currency = this.currency;
+            }
+
+            if (this.data.item) {
+                tradeData.itemId = this.data.item.id;
+                tradeData.quantity = this.quantity;
+            }
+
+            sendTradeRequest(new TradeRequest(tradeData));
         }
         this.close();
     }

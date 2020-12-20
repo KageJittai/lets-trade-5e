@@ -25,3 +25,12 @@
 .lets-trade-window li.active .entity-name {
     font-weight: bold;
 }
+
+.lets-trade-window ul.currency {
+    padding-left: 0px;
+}
+
+.lets-trade-window .currency li {
+    list-style: none;
+    text-align: center;
+}

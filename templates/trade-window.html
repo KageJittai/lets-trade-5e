@@ -1,26 +1,39 @@
 <form autocomplete="off" onsubmit="event.preventDefault();">
-  <div class="form-group stacked">
-    <label>Item to trade</label>
-    <div class="flexrow">
-      <img
-        class="profile item-profile"
-        src="{{item.img}}"
-        title="{{item.name}}"
-      />
-      <h3 class="item-name">{{ item.name }}</h3>
+  {{#if currency}}
+    <div class="form-group stacked">
+      <label>Currency</label>
+      <ul class="currency flexrow">
+        <li><label>pp</label><input class="currency-input" type="text" data-dtype="number" data-coin="pp" value="0" /></li>
+        <li><label>gp</label><input class="currency-input" type="text" data-dtype="number" data-coin="gp" value="0" /></li>
+        <li><label>ep</label><input class="currency-input" type="text" data-dtype="number" data-coin="ep" value="0" /></li>
+        <li><label>sp</label><input class="currency-input" type="text" data-dtype="number" data-coin="sp" value="0" /></li>
+        <li><label>cp</label><input class="currency-input" type="text" data-dtype="number" data-coin="cp" value="0" /></li>
+      </ul>
     </div>
-  </div>
+  {{else}}
+    <div class="form-group stacked">
+      <label>Item to trade</label>
+      <div class="flexrow">
+        <img
+          class="profile item-profile"
+          src="{{item.img}}"
+          title="{{item.name}}"
+        />
+        <h3 class="item-name">{{ item.name }}</h3>
+      </div>
+    </div>
 
-  {{#if showquantity}}
-  <div class="form-group">
-    <label>Quantity</label>
-    <input class="quantity-input" type="text" data-dtype="number" value="{{quantity}}" />
-  </div>
-  <div class="flexrow">
-    <button class="quantity-quick-btn" data-qsize="one">One</button>
-    <button class="quantity-quick-btn" data-qsize="half">Half</button>
-    <button class="quantity-quick-btn" data-qsize="all">All</button>
-  </div>
+    {{#if showquantity}}
+    <div class="form-group">
+      <label>Quantity</label>
+      <input class="quantity-input" type="text" data-dtype="number" value="{{quantity}}" />
+    </div>
+    <div class="flexrow">
+      <button class="quantity-quick-btn" data-qsize="one">One</button>
+      <button class="quantity-quick-btn" data-qsize="half">Half</button>
+      <button class="quantity-quick-btn" data-qsize="all">All</button>
+    </div>
+    {{/if}}
   {{/if}}
 
   <div class="form-group stacked">
