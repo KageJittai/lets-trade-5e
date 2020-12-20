@@ -1,0 +1,27 @@
+.lets-trade-window img.profile.item-profile {
+    flex: 0 0 42px;
+    height: 42px;
+    border: none;
+}
+
+.lets-trade-window img.profile {
+    flex: 0 0 32px;
+    height: 32px;
+    border: none;
+}
+
+.lets-trade-window .entity-name {
+    font-size: 16px;
+    line-height: 42px;
+    margin: 0 0 0 5px;
+}
+
+.lets-trade-window .item-name {
+    font-size: 22px;
+    line-height: 42px;
+    margin: 0 0 0 5px;
+}
+
+.lets-trade-window li.active .entity-name {
+    font-weight: bold;
+}
