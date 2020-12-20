@@ -148,12 +148,14 @@ export default class TradeRequest {
             }
         }
         else {
-            let currency = duplicate(this.destinationActor.data.data.currency);
-            for (let key in currency) {
-                currency[key] += this.currency[key];
+            let currency = duplicate(this.sourceActor.data.data.currency);
+            for (let key in this.currency) {
+                currency[key] -= this.currency[key];
             }
-            this.destinationActor.update({
-                data: currency
+            this.sourceActor.update({
+                data: {
+                    currency: currency
+                }
             });
         }
     }
@@ -168,12 +170,14 @@ export default class TradeRequest {
             this.destinationActor.createOwnedItem(itemData);
         }
         else {
-            let currency = duplicate(this.sourceActor.data.data.currency);
-            for (let key in currency) {
-                currency[key] -= this.currency[key];
+            let currency = duplicate(this.destinationActor.data.data.currency);
+            for (let key in this.currency) {
+                currency[key] += this.currency[key];
             }
-            this.sourceActor.update({
-                data: currency
+            this.destinationActor.update({
+                data: {
+                    currency: currency
+                }
             });
         }
     }

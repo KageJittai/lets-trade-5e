@@ -1,6 +1,7 @@
 import TradeWindow from "./trade-window.js"
 import {Config} from "./config.js"
 import {receiveTrade, completeTrade, denyTrade, getPlayerCharacters} from "./lets-trade-core.js"
+import {injectTidySheet, injectDnd5e, injectDndbcs} from "./compatibility.js"
 
 Hooks.once("setup", async function () {
     //loadTemplates([Config.TradeWindowTemplate]);
@@ -27,15 +28,21 @@ Hooks.once("setup", async function () {
 });
 
 Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, character) {
-    let currency = $(".inventory.tab ol.currency", element);
+    let sheetClasses = sheet.options.classes;
+    console.log(sheet.options.classes);
+    if (sheetClasses[0] === "tidy5e") {
+        injectTidySheet(element, sheet.actor.id, onCurrencyTradeClick);
+    }
+    else if (sheetClasses[0] === "alt5e") {
+        injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
+    }
+    else if (sheetClasses[4] === "dndbcs") {
+        injectDndbcs(element, sheet.actor.id, onCurrencyTradeClick);
+    }
+    else {
+        injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
+    }
 
-    let currencyIcon = $(`<a class="currency-control currency-trade" title="Send to Player">
-        <i class="fas fa-balance-scale-right"></i>
-    </a>`)[0];
-    currencyIcon.dataset.actorId = sheet.actor.id;
-    currencyIcon.addEventListener("click", onCurrencyTradeClick);
-
-    currency.append(currencyIcon);
 
     let items = $(".inventory.tab .item", element);
     for (let i = 0; i < items.length; i++) {
