@@ -15,7 +15,7 @@
     "esmodules": [
         "src/main.js"
     ],
-    "url": "https://github.com/KageJittai/Lets-Trade-5e",
-    "manifest": "https://raw.githubusercontent.com/KageJittai/Lets-Trade-5e/main/module.json",
-    "download": "https://github.com/KageJittai/Lets-Trade-5e/archive/main.zip"
+    "url": "https://github.com/KageJittai/lets-trade-5e",
+    "manifest": "https://raw.githubusercontent.com/KageJittai/lets-trade-5e/main/module.json",
+    "download": "https://github.com/KageJittai/lets-trade-5e/archive/main.zip"
 }
