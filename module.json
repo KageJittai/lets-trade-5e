@@ -9,11 +9,13 @@
     "minimumSystemVersion": "1.2.0",
     "license": "LICENSE",
     "socket": true,
-    "url": "https://github.com/KageJittai/Lets-Trade-5e",
     "styles": [
         "styles/lets-trade.css"
     ],
     "esmodules": [
         "src/main.js"
-    ]
+    ],
+    "url": "https://github.com/KageJittai/Lets-Trade-5e",
+    "manifest": "https://raw.githubusercontent.com/KageJittai/Lets-Trade-5e/main/module.json",
+    "download": "https://github.com/KageJittai/Lets-Trade-5e/archive/main.zip"
 }
