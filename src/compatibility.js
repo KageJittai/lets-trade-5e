@@ -31,3 +31,14 @@ export function injectDndbcs(element, actorId, callback) {
     let insertPoint = $("ol.currency", element);
     insertPoint.prepend(currencyIcon);
 }
+
+export function injectCb5es(element, actorId, callback) {
+    let currencyIcon = $(`<a class="currency-control currency-trade" title="Send to Player">
+        <i class="fas fa-balance-scale-right"></i>
+    </a>`)[0];
+    currencyIcon.dataset.actorId = actorId;
+    currencyIcon.addEventListener("click", callback);
+
+    let insertPoint = $(".currency h3", element);
+    insertPoint.append(currencyIcon);
+}

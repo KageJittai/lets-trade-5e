@@ -1,7 +1,7 @@
 import TradeWindow from "./trade-window.js"
 import {Config} from "./config.js"
 import {receiveTrade, completeTrade, denyTrade, getPlayerCharacters} from "./lets-trade-core.js"
-import {injectTidySheet, injectDnd5e, injectDndbcs} from "./compatibility.js"
+import {injectTidySheet, injectDnd5e, injectDndbcs, injectCb5es} from "./compatibility.js"
 
 Hooks.once("setup", async function () {
     //loadTemplates([Config.TradeWindowTemplate]);
@@ -28,17 +28,26 @@ Hooks.once("setup", async function () {
 
 Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, character) {
     let sheetClasses = sheet.options.classes;
-    if (sheetClasses[0] === "tidy5e") {
-        injectTidySheet(element, sheet.actor.id, onCurrencyTradeClick);
+    console.log(sheetClasses);
+    try {
+        if (sheetClasses[0] === "tidy5e") {
+            injectTidySheet(element, sheet.actor.id, onCurrencyTradeClick);
+        }
+        else if (sheetClasses[0] === "alt5e") {
+            injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
+        }
+        else if (sheetClasses[4] === "dndbcs") {
+            injectDndbcs(element, sheet.actor.id, onCurrencyTradeClick);
+        }
+        else if (sheetClasses[4] === "cb5es") {
+            injectCb5es(element, sheet.actor.id, onCurrencyTradeClick);
+        }
+        else {
+            injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
+        }
     }
-    else if (sheetClasses[0] === "alt5e") {
-        injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
-    }
-    else if (sheetClasses[4] === "dndbcs") {
-        injectDndbcs(element, sheet.actor.id, onCurrencyTradeClick);
-    }
-    else {
-        injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
+    catch (e) {
+        console.log("Let's Trade 5e | Failed to inject currency icon onto character sheet.");
     }
 
 
