@@ -15,6 +15,8 @@ The second player must then confirm the trade with a prompt on their screen, at 
 - Sky's Alternative Character Sheet
 - Tidy5e
 - D&D Beyond Character Sheet
+- D&D Beyond Compat Character Sheet
+- OGL 5e Sheet (Partial Support: allows for trading of non-inventory items)
 
 ## Known issues
 
