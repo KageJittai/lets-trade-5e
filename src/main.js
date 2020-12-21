@@ -1,7 +1,7 @@
 import TradeWindow from "./trade-window.js"
 import {Config} from "./config.js"
 import {receiveTrade, completeTrade, denyTrade, getPlayerCharacters} from "./lets-trade-core.js"
-import {injectTidySheet, injectDnd5e, injectDndbcs, injectCb5es} from "./compatibility.js"
+import {injectTidySheet, injectDnd5e, injectDndbcs, injectCb5es, injectOgl5e} from "./compatibility.js"
 
 Hooks.once("setup", async function () {
     //loadTemplates([Config.TradeWindowTemplate]);
@@ -28,7 +28,6 @@ Hooks.once("setup", async function () {
 
 Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, character) {
     let sheetClasses = sheet.options.classes;
-    console.log(sheetClasses);
     try {
         if (sheetClasses[0] === "tidy5e") {
             injectTidySheet(element, sheet.actor.id, onCurrencyTradeClick);
@@ -42,6 +41,9 @@ Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, characte
         else if (sheetClasses[4] === "cb5es") {
             injectCb5es(element, sheet.actor.id, onCurrencyTradeClick);
         }
+        else if (sheetClasses[4] === "ogl5e-sheet") {
+            injectOgl5e(element, sheet.actor.id, onCurrencyTradeClick);
+        }
         else {
             injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
         }
@@ -52,6 +54,10 @@ Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, characte
 
 
     let items = $(".inventory.tab .item", element);
+    if (items.length === 0) {
+        items = $(".inventory-list.items-list .item", element);
+    }
+
     for (let i = 0; i < items.length; i++) {
         let item = items[i];
         let edit = $(".item-control.item-edit", item);
