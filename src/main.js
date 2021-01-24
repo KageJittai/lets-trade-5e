@@ -64,12 +64,17 @@ function onItemTradeClick(event) {
     const item = game.actors.get(actorId).getOwnedItem(itemId);
     const characters = getPlayerCharacters(actorId);
 
-    const tw = new TradeWindow({
-        actorId,
-        item,
-        characters
-    });
-    tw.render(true);
+    if (characters.length === 0) {
+        ui.notifications.warn("No player characters available to trade with.")
+    }
+    else {
+        const tw = new TradeWindow({
+            actorId,
+            item,
+            characters
+        });
+        tw.render(true);
+    }
 }
 
 function onCurrencyTradeClick(event) {
@@ -80,11 +85,16 @@ function onCurrencyTradeClick(event) {
     const currency = game.actors.get(actorId).data.data.currency;
     const characters = getPlayerCharacters(actorId);
 
-    const tw = new TradeWindow({
-        actorId,
-        currencyMax: currency,
-        currency: true,
-        characters
-    });
-    tw.render(true);
+    if (characters.length === 0) {
+        ui.notifications.warn("No player characters available to trade with.")
+    }
+    else {
+        const tw = new TradeWindow({
+            actorId,
+            currencyMax: currency,
+            currency: true,
+            characters
+        });
+        tw.render(true);
+    }
 }
