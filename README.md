@@ -14,12 +14,12 @@ The second player must then confirm the trade with a prompt on their screen, at 
 - DND5e
 - Sky's Alternative Character Sheet
 - Tidy5e
+- Dark Sheet
 - D&D Beyond Character Sheet
 - D&D Beyond Compat Character Sheet
-- OGL 5e Sheet (Partial Support: allows for trading of non-inventory items)
+- OGL 5e Sheet
 
 ## Known issues
 
-- Player can open the trade window when no other players are online.
 - Player might see trade icons on sheets without owner permissions.
 - Lack of support for trading with unclaimed player characters.
