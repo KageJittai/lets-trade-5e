@@ -62,12 +62,11 @@ function currencyOgl5e(element, actorId, callback) {
  * @returns {object[]}
  */
 function fetchDefault(element) {
-    let items = $(".inventory.tab .item", element);
-    if (items.length === 0) {
-        items = $(".inventory-list.items-list .item", element);
-    }
+    return  $(".inventory.tab .item", element);
+}
 
-    return items;
+function fetchOgl5e(element) {
+    return $("section.inventory .inventory-list.items-list .item", element);
 }
 
 /**
@@ -155,7 +154,7 @@ export const compatibility = {
     },
     "ogl5e-sheet": {
         currency: currencyOgl5e,
-        fetch: fetchDefault,
+        fetch: fetchOgl5e,
         item: itemDefault
     },
     "defualt": {
