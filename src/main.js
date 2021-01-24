@@ -1,7 +1,7 @@
 import TradeWindow from "./trade-window.js"
 import {Config} from "./config.js"
 import {receiveTrade, completeTrade, denyTrade, getPlayerCharacters} from "./lets-trade-core.js"
-import {injectTidySheet, injectDnd5e, injectDndbcs, injectCb5es, injectOgl5e} from "./compatibility.js"
+import {sheetCompatibilityName, compatibility} from "./compatibility.js"
 
 Hooks.once("setup", async function () {
     //loadTemplates([Config.TradeWindowTemplate]);
@@ -27,51 +27,27 @@ Hooks.once("setup", async function () {
 });
 
 Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, character) {
-    let sheetClasses = sheet.options.classes;
+    const actorId = sheet.actor.id;
+    const sheetName = sheetCompatibilityName(sheet.options.classes);
     try {
-        if (sheetClasses[0] === "tidy5e") {
-            injectTidySheet(element, sheet.actor.id, onCurrencyTradeClick);
-        }
-        else if (sheetClasses[0] === "alt5e") {
-            injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
-        }
-        else if (sheetClasses[4] === "dndbcs") {
-            injectDndbcs(element, sheet.actor.id, onCurrencyTradeClick);
-        }
-        else if (sheetClasses[4] === "cb5es") {
-            injectCb5es(element, sheet.actor.id, onCurrencyTradeClick);
-        }
-        else if (sheetClasses[4] === "ogl5e-sheet") {
-            injectOgl5e(element, sheet.actor.id, onCurrencyTradeClick);
-        }
-        else {
-            injectDnd5e(element, sheet.actor.id, onCurrencyTradeClick);
-        }
+        compatibility[sheetName].currency(element, actorId, onCurrencyTradeClick);
     }
     catch (e) {
-        console.log("Let's Trade 5e | Failed to inject currency icon onto character sheet.");
+        console.error("Let's Trade 5e | Failed to inject currency icon onto character sheet.");
     }
 
-
-    let items = $(".inventory.tab .item", element);
-    if (items.length === 0) {
-        items = $(".inventory-list.items-list .item", element);
-    }
+    let items = compatibility[sheetName].fetch(element);
 
     for (let i = 0; i < items.length; i++) {
-        let item = items[i];
-        let edit = $(".item-control.item-edit", item);
-        let icon = $(`<a class="item-control item-trade" title="Send to Player">
-            <i class="fas fa-balance-scale-right"></i>
-        </a>`)[0];
-
-        icon.dataset.itemId = item.dataset.itemId;
-        icon.dataset.actorId = sheet.actor.id;
-        icon.addEventListener("click", onItemTradeClick);
-
-        if (edit[0])
-            edit[0].after(icon);
+        try {
+            compatibility[sheetName].item(items[i], actorId, onItemTradeClick);
+        }
+        catch (e) {
+            console.error("Let's Trade 5e | Failed to inject onto item: ", items[i]);
+        }
     }
+
+    console.log("Let's Trade 5e | Added trade icons to sheet for actor " + actorId);
 });
 
 /**
@@ -87,12 +63,17 @@ function onItemTradeClick(event) {
     const item = game.actors.get(actorId).getOwnedItem(itemId);
     const characters = getPlayerCharacters(actorId);
 
-    const tw = new TradeWindow({
-        actorId,
-        item,
-        characters
-    });
-    tw.render(true);
+    if (characters.length === 0) {
+        ui.notifications.warn("No player characters available to trade with.")
+    }
+    else {
+        const tw = new TradeWindow({
+            actorId,
+            item,
+            characters
+        });
+        tw.render(true);
+    }
 }
 
 function onCurrencyTradeClick(event) {
@@ -103,11 +84,16 @@ function onCurrencyTradeClick(event) {
     const currency = game.actors.get(actorId).data.data.currency;
     const characters = getPlayerCharacters(actorId);
 
-    const tw = new TradeWindow({
-        actorId,
-        currencyMax: currency,
-        currency: true,
-        characters
-    });
-    tw.render(true);
+    if (characters.length === 0) {
+        ui.notifications.warn("No player characters available to trade with.")
+    }
+    else {
+        const tw = new TradeWindow({
+            actorId,
+            currencyMax: currency,
+            currency: true,
+            characters
+        });
+        tw.render(true);
+    }
 }
