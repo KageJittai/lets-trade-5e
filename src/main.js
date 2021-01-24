@@ -29,7 +29,6 @@ Hooks.once("setup", async function () {
 Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, character) {
     const actorId = sheet.actor.id;
     const sheetName = sheetCompatibilityName(sheet.options.classes);
-    console.log(sheet.options.classes, sheetName, compatibility);
     try {
         compatibility[sheetName].currency(element, actorId, onCurrencyTradeClick);
     }
