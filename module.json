@@ -3,7 +3,7 @@
     "title": "Let's Trade 5e",
     "description": "A Foundry VTT module which allows you to send and receive items from other players.",
     "author": "Kage",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "minimumCoreVersion": "0.7.9",
     "minimumSystemVersion": "1.2.0",
     "compatibleCoreVersion": "0.8.6",
