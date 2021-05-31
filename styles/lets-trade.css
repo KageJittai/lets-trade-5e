@@ -22,8 +22,16 @@
     margin: 0 0 0 5px;
 }
 
-.lets-trade-window li.active .entity-name {
+.lets-trade-window li {
+    padding: 5px 0 0 5px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+}
+
+.lets-trade-window li.active {
     font-weight: bold;
+    border-color: #ff6400;
+    background: rgba(0, 0, 0, 0.1)
 }
 
 .lets-trade-window ul.currency {
