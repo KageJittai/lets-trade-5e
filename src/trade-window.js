@@ -80,9 +80,19 @@ export default class TradeWindow extends Application {
         event.preventDefault();
         let value = parseInt(event.target.value);
         let coin = event.target.dataset.coin;
-        value = clampNumber(value, 0, this.data.currencyMax[coin]);
-        this.currency[coin] = value;
-        event.target.value = value;
+	if (value >=0 && value <= this.data.currencyMax[coin]) {
+           this.currency[coin] = value;
+           event.target.value = value;
+	}
+	else {
+	   ui.notifications.warn("Invalid Currency Amount");
+	   if (value > this.data.currencyMax[coin]){
+	      event.target.value = this.data.currencyMax[coin];
+	      }
+	   else {
+	   event.target.value = 0;
+	   }
+	}
     }
 
     /**
@@ -123,9 +133,21 @@ export default class TradeWindow extends Application {
      * @param {number} newQuantity 
      */
     updateQuantity(newQuantity) {
-        newQuantity = clampNumber(newQuantity, 1, this.data.item.data.data.quantity);
-        this.quantity = newQuantity;
-        this.element.find(".quantity-input")[0].value = this.quantity;
+	if (newQuantity >0 && newQuantity <= this.data.item.data.data.quantity) {
+           this.quantity = newQuantity;
+           this.element.find(".quantity-input")[0].value = this.quantity;
+	}
+	else {
+	   ui.notifications.warn("Invalid Item Quantity");
+	   if (newQuantity > this.data.item.data.data.quantity) {
+	      this.quantity = this.data.item.data.data.quantity;
+	      this.element.find(".quantity-input")[0].value = this.data.item.data.data.quantity;
+	   }
+	   else {
+	      this.quantity = 0;
+	      this.element.find(".quantity-input")[0].value = 0;
+	   }
+        }
     }
 
     /** 
