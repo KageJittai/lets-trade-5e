@@ -102,7 +102,7 @@ export default class TradeRequest {
 
         if (this.item) {
             // Item should exist and have a valid quantity
-            if (this.item.data.data.quantity < this.quantity) {
+            if (this.item.data.data.quantity < this.quantity || this.quantity <= 0) {
                 return false;
             }
         }
