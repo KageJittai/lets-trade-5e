@@ -80,7 +80,7 @@ export default class TradeWindow extends Application {
         event.preventDefault();
         let value = parseInt(event.target.value);
         let coin = event.target.dataset.coin;
-        value = clampNumber(value, 0, this.data.currencyMax[coin]);
+        value = Math.min(Math.max(value, 0), this.data.currencyMax[coin]);
         this.currency[coin] = value;
         event.target.value = value;
     }
@@ -123,7 +123,7 @@ export default class TradeWindow extends Application {
      * @param {number} newQuantity 
      */
     updateQuantity(newQuantity) {
-        newQuantity = clampNumber(newQuantity, 1, this.data.item.data.data.quantity);
+        newQuantity = Math.min(Math.max(newQuantity, 1), this.data.item.data.data.quantity);
         this.quantity = newQuantity;
         this.element.find(".quantity-input")[0].value = this.quantity;
     }
