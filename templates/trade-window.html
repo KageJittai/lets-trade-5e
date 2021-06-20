@@ -3,11 +3,15 @@
     <div class="form-group stacked">
       <label>Currency</label>
       <ul class="currency flexrow">
+        {{#if isSw5e}}
+        <li><label>gc</label><input class="currency-input" type="text" data-dtype="number" data-coin="gc" value="0" /></li>
+        {{else}}
         <li><label>pp</label><input class="currency-input" type="text" data-dtype="number" data-coin="pp" value="0" /></li>
         <li><label>gp</label><input class="currency-input" type="text" data-dtype="number" data-coin="gp" value="0" /></li>
         <li><label>ep</label><input class="currency-input" type="text" data-dtype="number" data-coin="ep" value="0" /></li>
         <li><label>sp</label><input class="currency-input" type="text" data-dtype="number" data-coin="sp" value="0" /></li>
         <li><label>cp</label><input class="currency-input" type="text" data-dtype="number" data-coin="cp" value="0" /></li>
+        {{/if}}
       </ul>
     </div>
   {{else}}

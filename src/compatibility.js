@@ -54,6 +54,17 @@ function currencyOgl5e(element, actorId, callback) {
     insertPoint.append($(`<div style="text-align: center; padding-top: 10px;"></div>`).append(currencyIcon));
 }
 
+function currencySw5e(element, actorId, callback) {
+    let currencyIcon = $(`<a class="currency-control currency-trade" title="Send to Player">
+        <i class="fas fa-balance-scale-right"></i>
+    </a>`)[0];
+    currencyIcon.dataset.actorId = actorId;
+    currencyIcon.addEventListener("click", callback);
+
+    let insertPoint = $(".currency", element)[0];
+    insertPoint.append(currencyIcon);
+}
+
 /**
  * Returns a list item dom elements belonging to the sheet elements
  * 
@@ -118,7 +129,8 @@ export function sheetCompatibilityName(sheetClasses) {
         "alt5e",
         "dndbcs",
         "cb5es",
-        "ogl5e-sheet"
+        "ogl5e-sheet",
+        "sw5e"
     ];
 
     for (let i = 0; i < names.length; i++) {
@@ -155,6 +167,11 @@ export const compatibility = {
     "ogl5e-sheet": {
         currency: currencyOgl5e,
         fetch: fetchOgl5e,
+        item: itemDefault
+    },
+    "sw5e": {
+        currency: currencySw5e,
+        fetch: fetchDefault,
         item: itemDefault
     },
     "defualt": {

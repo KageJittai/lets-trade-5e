@@ -14,7 +14,10 @@ export default class TradeWindow extends Application {
         if (this.data.item)
             this.quantity = this.data.item.data.data.quantity;
 
-        this.currency = { pp: 0, gp: 0, ep: 0, sp: 0, cp: 0 };
+        if(data.isSw5e)
+            this.currency = { gc: 0 };
+        else
+            this.currency = { pp: 0, gp: 0, ep: 0, sp: 0, cp: 0 };
     }
 
     /** 
@@ -49,7 +52,8 @@ export default class TradeWindow extends Application {
             characters: this.data.characters,
             quantity: this.quantity,
             showquantity: this.quantity !== 1,
-            currency: this.data.currency
+            currency: this.data.currency,
+            isSw5e: this.data.isSw5e
         };
 
         if (this.data.item) {

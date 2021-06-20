@@ -26,7 +26,7 @@ Hooks.once("setup", async function () {
     console.log("Let's Trade 5e Loaded");
 });
 
-Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, character) {
+async function renderInjectionHook(sheet, element, character) {
     const actorId = sheet.actor.id;
     const sheetName = sheetCompatibilityName(sheet.options.classes);
     try {
@@ -48,7 +48,11 @@ Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, characte
     }
 
     console.log("Let's Trade 5e | Added trade icons to sheet for actor " + actorId);
-});
+}
+
+Hooks.on("renderActorSheet5eCharacter", renderInjectionHook);
+
+Hooks.on("renderActorSheet5eCharacterNew", renderInjectionHook);
 
 /**
  * Handles the trade event click.
@@ -91,6 +95,7 @@ function onCurrencyTradeClick(event) {
         const tw = new TradeWindow({
             actorId,
             currencyMax: currency,
+            isSw5e: game.system.id === "sw5e",
             currency: true,
             characters
         });
