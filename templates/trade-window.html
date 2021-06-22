@@ -1,14 +1,14 @@
 <form autocomplete="off" onsubmit="event.preventDefault();">
-  {{#if data.currencyMax}}
+  {{#if currency}}
     <div class="form-group stacked">
       <label>Currency</label>
       <ul class="currency flexrow">
-        {{#each data.currencyMax as |k v|}}
+        {{#each currency as |v k|}}
           <li>
-            <label>{{data.currencyMax.k}}</label>
-            <input class="currency-input" type="number" data-dtype="number" data-coin="{{data.currencyMax.k}}" min="0" max="{{data.currencyMax.v}}" value="{{data.currencyMax.v}}" />
+            <label>{{k}}</label>
+            <input class="currency-input" type="number" data-dtype="number" data-coin="{{k}}" min="0" max="{{v}}" value="{{v}}" />
           </li>
-        {{\each}}
+          {{/each}}
       </ul>
     </div>
   {{else}}
