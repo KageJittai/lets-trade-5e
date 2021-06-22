@@ -14,7 +14,8 @@ export default class TradeWindow extends Application {
         if (this.data.item)
             this.quantity = this.data.item.data.data.quantity;
 
-        this.currency = { pp: 0, gp: 0, ep: 0, sp: 0, cp: 0 };
+        if (this.data.currencyMax)
+            this.currency = Object.assign({}, this.data.currencyMax);
     }
 
     /** 
@@ -49,7 +50,7 @@ export default class TradeWindow extends Application {
             characters: this.data.characters,
             quantity: this.quantity,
             showquantity: this.quantity !== 1,
-            currency: this.data.currency
+            currency: this.data.currencyMax
         };
 
         if (this.data.item) {
@@ -159,7 +160,7 @@ export default class TradeWindow extends Application {
                 destinationUserId: this.selectedActor.userId,
             };
 
-            if (this.data.currency) {
+            if (this.currency) {
                 tradeData.currency = this.currency;
             }
 

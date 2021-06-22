@@ -52,7 +52,7 @@ Hooks.on("renderActorSheet5eCharacter", async function (sheet, element, characte
 
 /**
  * Handles the trade event click.
- * @param {event} event 
+ * @param {event} event
  */
 function onItemTradeClick(event) {
     event.preventDefault();
@@ -91,7 +91,6 @@ function onCurrencyTradeClick(event) {
         const tw = new TradeWindow({
             actorId,
             currencyMax: currency,
-            currency: true,
             characters
         });
         tw.render(true);
