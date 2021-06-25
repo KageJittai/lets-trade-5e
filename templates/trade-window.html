@@ -2,11 +2,13 @@
   {{#if currency}}
     <div class="form-group stacked">
       <label>Currency</label>
-      <ul class="currency flexrow">
-        {{#each currency as |v k|}}
+      <ul class="currency">
+        {{#each currency as |max coin|}}
           <li>
-            <label>{{k}}</label>
-            <input class="currency-input" type="number" data-dtype="number" data-coin="{{k}}" min="0" max="{{v}}" value="{{v}}" />
+            <label>
+              <input class="currency-input" type="number" data-dtype="number" data-coin="{{coin}}" min="0" max="{{max}}" value="0" />
+              {{coin}}
+            </label>
           </li>
           {{/each}}
       </ul>
