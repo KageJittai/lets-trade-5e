@@ -113,13 +113,7 @@ function itemTidy5e(item, actorId, callback) {
  */
 export function sheetCompatibilityName(sheetClasses) {
     // List of supported sheets
-    const names = [
-        "tidy5e",
-        "alt5e",
-        "dndbcs",
-        "cb5es",
-        "ogl5e-sheet"
-    ];
+    const names = Object.keys(compatibility).filter(e => e !== "default");
 
     for (let i = 0; i < names.length; i++) {
         if (sheetClasses.includes(names[i])) {
@@ -128,7 +122,7 @@ export function sheetCompatibilityName(sheetClasses) {
     }
 
     // Default Sheet
-    return "defualt";
+    return "default";
 }
 
 export const compatibility = {
@@ -157,7 +151,7 @@ export const compatibility = {
         fetch: fetchOgl5e,
         item: itemDefault
     },
-    "defualt": {
+    "default": {
         currency: currencyDefault,
         fetch: fetchDefault,
         item: itemDefault
