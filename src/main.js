@@ -94,7 +94,6 @@ function onCurrencyTradeClick(event) {
         const tw = new TradeWindow({
             actorId,
             currencyMax: currency,
-            currency: true,
             characters
         });
         tw.render(true);

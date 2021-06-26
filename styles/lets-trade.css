@@ -40,5 +40,12 @@
 
 .lets-trade-window .currency li {
     list-style: none;
+    display: inline;
+    margin: 2px;
+}
+
+.lets-trade-window .currency li input {
+    width: 4.5em;
     text-align: center;
+    margin-right: 2px;
 }

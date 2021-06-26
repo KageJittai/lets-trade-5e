@@ -14,8 +14,18 @@ export default class TradeWindow extends Application {
         if (this.data.item)
             this.quantity = this.data.item.data.data.quantity;
 
-        if (this.data.currencyMax)
-            this.currency = Object.assign({}, this.data.currencyMax);
+        if (this.data.currencyMax) {
+            this.currency = {};
+            this.data.currencyMax = Object.assign({}, this.data.currencyMax);
+            for (let coin in this.data.currencyMax) {
+                this.currency[coin] = 0;
+                
+                // Don't include coins which the actor doesn't have any of.
+                if (!this.data.currencyMax[coin]) {
+                    delete this.data.currencyMax[coin]
+                }
+            }
+        }
     }
 
     /**
