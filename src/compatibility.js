@@ -54,11 +54,22 @@ function currencyOgl5e(element, actorId, callback) {
     insertPoint.append($(`<div style="text-align: center; padding-top: 10px;"></div>`).append(currencyIcon));
 }
 
+function currencySw5e(element, actorId, callback) {
+    let currencyIcon = $(`<a class="currency-control currency-trade" title="Send to Player">
+        <i class="fas fa-balance-scale-right"></i>
+    </a>`)[0];
+    currencyIcon.dataset.actorId = actorId;
+    currencyIcon.addEventListener("click", callback);
+
+    let insertPoint = $(".currency", element)[0];
+    insertPoint.append(currencyIcon);
+}
+
 /**
  * Returns a list item dom elements belonging to the sheet elements
- * 
+ *
  * @param {object} element The sheet element
- * 
+ *
  * @returns {object[]}
  */
 function fetchDefault(element) {
@@ -71,8 +82,8 @@ function fetchOgl5e(element) {
 
 /**
  * Injects the trade icon onto a DOM item element.
- * 
- * @param {object} item 
+ *
+ * @param {object} item
  * @param {function} callback
  */
 function itemDefault(item, actorId, callback) {
@@ -106,20 +117,14 @@ function itemTidy5e(item, actorId, callback) {
 
 /**
  * Returns a compatibility name for sheet class
- * 
+ *
  * @param {string[]} sheetClasses List of classes belonging to the sheet
- * 
+ *
  * @returns {string}
  */
 export function sheetCompatibilityName(sheetClasses) {
     // List of supported sheets
-    const names = [
-        "tidy5e",
-        "alt5e",
-        "dndbcs",
-        "cb5es",
-        "ogl5e-sheet"
-    ];
+    const names = Object.keys(compatibility).filter(e => e !== "default");
 
     for (let i = 0; i < names.length; i++) {
         if (sheetClasses.includes(names[i])) {
@@ -128,7 +133,7 @@ export function sheetCompatibilityName(sheetClasses) {
     }
 
     // Default Sheet
-    return "defualt";
+    return "default";
 }
 
 export const compatibility = {
@@ -157,7 +162,12 @@ export const compatibility = {
         fetch: fetchOgl5e,
         item: itemDefault
     },
-    "defualt": {
+    "sw5e":{
+        currency: currencySw5e,
+        fetch: fetchDefault,
+        item: itemDefault
+    },
+    "default": {
         currency: currencyDefault,
         fetch: fetchDefault,
         item: itemDefault

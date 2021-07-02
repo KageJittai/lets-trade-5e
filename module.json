@@ -7,7 +7,7 @@
     "minimumCoreVersion": "0.7.9",
     "minimumSystemVersion": "1.2.0",
     "compatibleCoreVersion": "0.8.8",
-    "system": ["dnd5e"],
+    "system": ["dnd5e", "sw5e"],
     "license": "LICENSE",
     "socket": true,
     "styles": [

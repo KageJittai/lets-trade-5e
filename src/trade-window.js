@@ -4,7 +4,7 @@ import TradeRequest from "./trade-request.js";
 
 /**
  * A window where the users selects a character to send an item.
- * 
+ *
  */
 export default class TradeWindow extends Application {
     constructor(data, options) {
@@ -28,7 +28,7 @@ export default class TradeWindow extends Application {
         }
     }
 
-    /** 
+    /**
      * @override
      * */
     static get defaultOptions() {
@@ -42,7 +42,7 @@ export default class TradeWindow extends Application {
 
     /**
      * The actor data of the selected trade target
-     * 
+     *
      * @returns {object|null} actor data or null if none were selected.
      */
     get selectedActor() {
@@ -115,7 +115,7 @@ export default class TradeWindow extends Application {
         let qmax = this.data.item.data.data.quantity;
         let q = 1;
         switch (qsize) {
-            case "one": 
+            case "one":
                 q = 1;
                 break;
             case "half":
@@ -130,8 +130,8 @@ export default class TradeWindow extends Application {
 
     /**
      * Updates the quantity
-     * 
-     * @param {number} newQuantity 
+     *
+     * @param {number} newQuantity
      */
     updateQuantity(newQuantity) {
         newQuantity = Math.min(Math.max(newQuantity, 1), this.data.item.data.data.quantity);
@@ -139,7 +139,7 @@ export default class TradeWindow extends Application {
         this.element.find(".quantity-input")[0].value = this.quantity;
     }
 
-    /** 
+    /**
      * Selects the target character.
      * @private
      */
