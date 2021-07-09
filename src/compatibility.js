@@ -167,6 +167,11 @@ export const compatibility = {
         fetch: fetchDefault,
         item: itemDefault
     },
+    "tidysw5e":{
+        currency: currencyTidySheet,
+        fetch: fetchDefault,
+        item: itemTidy5e
+    },
     "default": {
         currency: currencyDefault,
         fetch: fetchDefault,
