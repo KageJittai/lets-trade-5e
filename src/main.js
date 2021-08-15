@@ -1,7 +1,7 @@
 import TradeWindow from "./trade-window.js"
 import {Config} from "./config.js"
 import {receiveTrade, completeTrade, denyTrade, getPlayerCharacters} from "./lets-trade-core.js"
-import {sheetCompatibilityName, compatibility} from "./compatibility.js"
+import {getCompatibility} from "./compatibility.js"
 
 Hooks.once("setup", async function () {
     //loadTemplates([Config.TradeWindowTemplate]);
@@ -28,22 +28,22 @@ Hooks.once("setup", async function () {
 
 async function renderInjectionHook(sheet, element, character) {
     const actorId = sheet.actor.id;
-    const sheetName = sheetCompatibilityName(sheet.options.classes);
+    const compatibility = getCompatibility(sheet);
     try {
-        compatibility[sheetName].currency(element, actorId, onCurrencyTradeClick);
+        compatibility.currency(element, actorId, onCurrencyTradeClick);
     }
     catch (e) {
         console.error("Let's Trade 5e | Failed to inject currency icon onto character sheet.");
     }
 
-    let items = compatibility[sheetName].fetch(element);
+    let items = compatibility.fetch(element);
 
-    for (let i = 0; i < items.length; i++) {
+    for (let item of items) {
         try {
-            compatibility[sheetName].item(items[i], actorId, onItemTradeClick);
+            compatibility.item(item, actorId, onItemTradeClick);
         }
         catch (e) {
-            console.error("Let's Trade 5e | Failed to inject onto item: ", items[i]);
+            console.error("Let's Trade 5e | Failed to inject onto item: ", item);
         }
     }
 
@@ -52,6 +52,9 @@ async function renderInjectionHook(sheet, element, character) {
 
 Hooks.on("renderActorSheet5eCharacter", renderInjectionHook);
 Hooks.on("renderActorSheet5eCharacterNew", renderInjectionHook);
+
+//LootSheet5eNPC support
+Hooks.on("renderLootSheet5eNPC", renderInjectionHook);
 
 /**
  * Handles the trade event click.

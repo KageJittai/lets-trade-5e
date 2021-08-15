@@ -1,0 +1,3 @@
+.loot-sheet-npc.sheet.actor .inventory-list .item div.item-controls {
+    flex: 0 0 110px !important;
+}

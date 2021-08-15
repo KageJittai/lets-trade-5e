@@ -1,6 +1,7 @@
 import {Config} from "./config.js";
 import {sendTradeRequest} from "./lets-trade-core.js"
 import TradeRequest from "./trade-request.js";
+import {getCompatibility} from "./compatibility.js";
 
 /**
  * A window where the users selects a character to send an item.
@@ -91,7 +92,10 @@ export default class TradeWindow extends Application {
         event.preventDefault();
         let value = parseInt(event.target.value);
         let coin = event.target.dataset.coin;
-        value = Math.min(Math.max(value, 0), this.data.currencyMax[coin]);
+        const sheet = game.actors.get(this.data.actorId).sheet;
+        const compatibility = getCompatibility(sheet);
+        const maxValue = compatibility.parseCurrencyMax(this.data.currencyMax[coin]);
+        value = Math.min(Math.max(value, 0), maxValue);
         this.currency[coin] = value;
         event.target.value = value;
     }
