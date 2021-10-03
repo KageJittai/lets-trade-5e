@@ -65,6 +65,17 @@ function currencySw5e(element, actorId, callback) {
     insertPoint.append(currencyIcon);
 }
 
+function currencyLootSheet5e(element, actorId, callback) {
+    let currencyIcon = $(`<a class="currency-control currency-trade" title="Send to Player">
+        <i class="fas fa-balance-scale-right"></i>
+    </a>`)[0];
+    currencyIcon.dataset.actorId = actorId;
+    currencyIcon.addEventListener("click", callback);
+
+    let insertPoint = $("a.currency-loot", element)[0];
+    insertPoint.after(currencyIcon);
+}
+
 /**
  * Returns a list item dom elements belonging to the sheet elements
  *
@@ -78,6 +89,10 @@ function fetchDefault(element) {
 
 function fetchOgl5e(element) {
     return $("section.inventory .inventory-list.items-list .item", element);
+}
+
+function fetchLootSheet5e(element) {
+    return  $(".inventory-list .item", element);
 }
 
 /**
@@ -115,20 +130,58 @@ function itemTidy5e(item, actorId, callback) {
         edit[0].after(icon);
 }
 
+function itemLootSheet5e(item, actorId, callback) {
+    const edit = $(".item-control.item-loot", item);
+    const icon = $(`<a class="item-control item-trade" title="Send to Player">
+        <i class="fas fa-balance-scale-right"></i>
+    </a>`)[0];
+
+    icon.dataset.itemId = item.dataset.itemId;
+    icon.dataset.actorId = actorId;
+    icon.addEventListener("click", callback);
+
+    if (edit[0])
+        edit[0].after(icon);
+}
+
 /**
- * Returns a compatibility name for sheet class
+ * Updates the currency
  *
- * @param {string[]} sheetClasses List of classes belonging to the sheet
- *
- * @returns {string}
+ * @param currency {object} object to update currency on
+ * @param key {string}type of currency to update
+ * @param subtractValue {number} amount to subtract
  */
-export function sheetCompatibilityName(sheetClasses) {
+function updateCurrencyDefault(currency, key, subtractValue) {
+    currency[key] -= subtractValue;
+}
+
+function updateCurrencyLootSheet5e(currency, key, subtractValue) {
+    currency[key].value = (parseInt(currency[key].value) - subtractValue).toString();
+}
+
+/**
+ * Parses currencyMax
+ *
+ * @param currencyMax {object} object to retrieve currencyMax from
+ */
+function parseCurrencyMaxDefault(currencyMax) {
+    return currencyMax;
+}
+
+function parseCurrencyMaxLootSheet5e(currencyMax) {
+    return parseInt(currencyMax.value);
+}
+
+function sheetCompatibilityName(sheetClassesRaw) {
     // List of supported sheets
     const names = Object.keys(compatibility).filter(e => e !== "default");
 
-    for (let i = 0; i < names.length; i++) {
-        if (sheetClasses.includes(names[i])) {
-            return names[i];
+    const sheetClasses = sheetClassesRaw.length === 1
+        && sheetClassesRaw[0].indexOf(" ") >= 0 ? sheetClassesRaw[0].split(" ") : sheetClassesRaw;
+
+    for (let compatabilityName of names) {
+        if (sheetClasses.includes(compatabilityName)) {
+            return compatabilityName;
         }
     }
 
@@ -136,45 +189,80 @@ export function sheetCompatibilityName(sheetClasses) {
     return "default";
 }
 
-export const compatibility = {
+const compatibility = {
     "tidy5e": {
         currency: currencyTidySheet,
         fetch: fetchDefault,
-        item: itemTidy5e
+        item: itemTidy5e,
+        updateCurrency: updateCurrencyDefault,
+        parseCurrencyMax: parseCurrencyMaxDefault
     },
     "alt5e": {
         currency: currencyDefault,
         fetch: fetchDefault,
-        item: itemDefault
+        item: itemDefault,
+        updateCurrency: updateCurrencyDefault,
+        parseCurrencyMax: parseCurrencyMaxDefault
     },
     "dndbcs": {
         currency: currencyDndbcs,
         fetch: fetchDefault,
-        item: itemDefault
+        item: itemDefault,
+        updateCurrency: updateCurrencyDefault,
+        parseCurrencyMax: parseCurrencyMaxDefault
     },
     "cb5es": {
         currency: currencyCb5es,
         fetch: fetchDefault,
-        item: itemDefault
+        item: itemDefault,
+        updateCurrency: updateCurrencyDefault,
+        parseCurrencyMax: parseCurrencyMaxDefault
     },
     "ogl5e-sheet": {
         currency: currencyOgl5e,
         fetch: fetchOgl5e,
-        item: itemDefault
+        item: itemDefault,
+        updateCurrency: updateCurrencyDefault,
+        parseCurrencyMax: parseCurrencyMaxDefault
     },
     "sw5e":{
         currency: currencySw5e,
         fetch: fetchDefault,
-        item: itemDefault
+        item: itemDefault,
+        updateCurrency: updateCurrencyDefault,
+        parseCurrencyMax: parseCurrencyMaxDefault
     },
     "tidysw5e":{
         currency: currencyTidySheet,
         fetch: fetchDefault,
-        item: itemTidy5e
+        item: itemTidy5e,
+        updateCurrency: updateCurrencyDefault,
+        parseCurrencyMax: parseCurrencyMaxDefault
+    },
+    "loot-sheet-npc": {
+        currency: currencyLootSheet5e,
+        fetch: fetchLootSheet5e,
+        item: itemLootSheet5e,
+        updateCurrency: updateCurrencyLootSheet5e,
+        parseCurrencyMax: parseCurrencyMaxLootSheet5e
     },
     "default": {
         currency: currencyDefault,
         fetch: fetchDefault,
-        item: itemDefault
+        item: itemDefault,
+        updateCurrency: updateCurrencyDefault,
+        parseCurrencyMax: parseCurrencyMaxDefault
     },
 };
+
+/**
+ * Returns a compatibility object for sheet class
+ *
+ * @param {object} sheet
+ *
+ * @returns {object}
+ */
+export function getCompatibility(sheet) {
+    const sheetName = sheetCompatibilityName(sheet.options.classes);
+    return compatibility[sheetName];
+}

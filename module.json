@@ -11,7 +11,8 @@
     "license": "LICENSE",
     "socket": true,
     "styles": [
-        "styles/lets-trade.css"
+        "styles/lets-trade.css",
+        "styles/compatibility.css"
     ],
     "esmodules": [
         "src/main.js"

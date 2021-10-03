@@ -1,6 +1,7 @@
 /**
  * A class represting a single trade request.
  */
+import {getCompatibility} from "./compatibility.js";
 
 export default class TradeRequest {
     /**
@@ -148,9 +149,12 @@ export default class TradeRequest {
             }
         }
         else {
+            const compatibility = getCompatibility(this.sourceActor.sheet);
             let currency = duplicate(this.sourceActor.data.data.currency);
             for (let key in this.currency) {
-                currency[key] -= this.currency[key];
+                if(this.currency[key] > 0) {
+                    compatibility.updateCurrency(currency, key, this.currency[key]);
+                }
             }
             this.sourceActor.update({
                 data: {
