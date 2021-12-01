@@ -3,12 +3,12 @@ import TradeRequest from "./trade-request.js";
 
  /**
   * Sends a trade request from an actor to another actor.
-  * 
+  *
   * @param {TradeRequest} tradeRequest trade request to be processed.
   */
 export function sendTradeRequest(tradeRequest) {
     if (tradeRequest.isValid()) {
-        ui.notifications.notify("Trade request sent.");
+        ui.notifications.notify(game.i18n.localize("LetsTrade5E.TradeSent"));
 
         if (tradeRequest.sourceUserId === tradeRequest.destinationUserId) {
             // Local pathway
@@ -23,13 +23,13 @@ export function sendTradeRequest(tradeRequest) {
         }
     }
     else {
-        ui.notifications.error("Trade request is no longer valid.");
+        ui.notifications.error(game.i18n.localize("LetsTrade5E.TradeNoLongerValid"));
     }
 }
 
 /**
  * Returns a list of active player characters.
- * 
+ *
  * @param {string|undefined} excludedId An id which can be excluded from the results
  */
 export function getPlayerCharacters(excludedId) {
@@ -52,17 +52,17 @@ export function getPlayerCharacters(excludedId) {
 export function completeTrade(tradeData) {
     let tradeRequest = new TradeRequest(tradeData);
     tradeRequest.applyToSource();
-    ui.notifications.notify(`${tradeRequest.destinationActor.name} accepted your trade request.`);
+    ui.notifications.notify(game.i18n.format("LetsTrade5E.TradeAccepted", {name: tradeRequest.destinationActor.name}));
 }
 
 export function denyTrade(tradeData) {
     let tradeRequest = new TradeRequest(tradeData);
-    ui.notifications.notify(`${tradeRequest.destinationActor.name} rejected your trade request.`);
+    ui.notifications.notify(game.i18n.format("LetsTrade5E.TradeRejected", {name: tradeRequest.destinationActor.name}));
 }
 
 /**
  * Handles the incoming trade request.
- * 
+ *
  * @param {object} tradeData The incoming trade request
  */
 export function receiveTrade(tradeData) {
@@ -70,17 +70,17 @@ export function receiveTrade(tradeData) {
     // Only handle if we're the target user.
     if (tradeRequest.destinationUserId === game.userId) {
         let d = new Dialog({
-            title: "Incoming Trade Request",
-            content: `<p>${tradeRequest.sourceActor.name} is sending you ${tradeRequest.name()}. Do you accept?</p>`,
+            title: game.i18n.localize("LetsTrade5E.TradeIncomingTitle"),
+            content: "<p>" + game.i18n.format("LetsTrade5E.TradeDescription", {name: tradeRequest.sourceActor.name, item: tradeRequest.name()}) + "</p>",
             buttons: {
                 one: {
                     icon: '<i class="fas fa-check"></i>',
-                    label: "Confirm",
+                    label: game.i18n.localize("LetsTrade5E.TradeConfirm"),
                     callback: () => tradeConfirmed(tradeRequest)
                 },
                 two: {
                     icon: '<i class="fas fa-times"></i>',
-                    label: "Deny",
+                    label: game.i18n.localize("LetsTrade5E.TradeDeny"),
                     callback: () => tradeDenied(tradeRequest)
                 }
             },
@@ -107,7 +107,7 @@ function tradeConfirmed(tradeRequest) {
         }
     }
     else {
-        ui.notifications.error("Trade request is no longer valid.");
+        ui.notifications.error(game.i18n.localize("LetsTrade5E.TradeNoLongerValid"));
     }
 }
 
@@ -120,14 +120,14 @@ function tradeDenied(tradeRequest) {
 }
 /**
  * Outputs a chat message to the GM when a trade is executed.
- * 
+ *
  * @param {TradeRequest} tradeRequest The finished trade request.
  */
 function sendChatMessage(tradeRequest) {
     let chatMessage = {
         user: game.userId,
         speaker: ChatMessage.getSpeaker(),
-        content: `${tradeRequest.sourceActor.name} has sent ${tradeRequest.destinationActor.name} ${tradeRequest.name()}`,
+        content: game.i18n.format("LetsTrade5E.TradeDescriptionGM", {sender: tradeRequest.sourceActor.name, receiver: tradeRequest.destinationActor.name, item: tradeRequest.name()}),
         whisper: game.users.entities.filter(u => u.isGM).map(u => u._id)
     };
 

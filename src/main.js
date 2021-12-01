@@ -70,7 +70,7 @@ function onItemTradeClick(event) {
     const characters = getPlayerCharacters(actorId);
 
     if (characters.length === 0) {
-        ui.notifications.warn("No player characters available to trade with.")
+        ui.notifications.warn(game.i18n.localize("LetsTrade5E.NoPCToTradeWith"))
     }
     else {
         const tw = new TradeWindow({
@@ -91,7 +91,7 @@ function onCurrencyTradeClick(event) {
     const characters = getPlayerCharacters(actorId);
 
     if (characters.length === 0) {
-        ui.notifications.warn("No player characters available to trade with.")
+        ui.notifications.warn(game.i18n.localize("LetsTrade5E.NoPCToTradeWith"))
     }
     else {
         const tw = new TradeWindow({
