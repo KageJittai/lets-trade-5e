@@ -19,6 +19,10 @@ The second player must then confirm the trade with a prompt on their screen, at 
 - D&D Beyond Compat Character Sheet
 - OGL 5e Sheet
 
+## Supported Languages
+ - English
+ - Deutsch
+
 ## Known issues
 
 - Player might see trade icons on sheets without owner permissions.

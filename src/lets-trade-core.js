@@ -128,7 +128,7 @@ function sendChatMessage(tradeRequest) {
         user: game.userId,
         speaker: ChatMessage.getSpeaker(),
         content: game.i18n.format("LetsTrade5E.TradeDescriptionGM", {sender: tradeRequest.sourceActor.name, receiver: tradeRequest.destinationActor.name, item: tradeRequest.name()}),
-        whisper: game.users.entities.filter(u => u.isGM).map(u => u._id)
+        whisper: game.users.filter(u => u.isGM).map(u => u.id)
     };
 
     chatMessage.whisper.push(tradeRequest.sourceUserId);

@@ -75,7 +75,7 @@ export default class TradeRequest {
      * Returns the trade item.
      */
     get item() {
-        return this.sourceActor.getOwnedItem(this.itemId);
+        return this.sourceActor.items.get(this.itemId);
     }
 
     get currency() {
@@ -140,7 +140,7 @@ export default class TradeRequest {
         if (this.item) {
             let item = this.item;
             if (item.data.data.quantity <= this.quantity) {
-                this.sourceActor.deleteOwnedItem(item.id);
+                this.sourceActor.deleteEmbeddedDocuments("Item", [item.id]);
             }
             else {
                 item.update({data: {
@@ -171,7 +171,7 @@ export default class TradeRequest {
         if (this.item) {
             let itemData = duplicate(this.item.data);
             itemData.data.quantity = this.quantity;
-            this.destinationActor.createOwnedItem(itemData);
+            this.destinationActor.createEmbeddedDocuments("Item", [itemData]);
         }
         else {
             let currency = duplicate(this.destinationActor.data.data.currency);

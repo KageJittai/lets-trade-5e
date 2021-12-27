@@ -66,7 +66,7 @@ function onItemTradeClick(event) {
 
     const actorId = ele.dataset.actorId;
     const itemId = ele.dataset.itemId;
-    const item = game.actors.get(actorId).getOwnedItem(itemId);
+    const item = game.actors.get(actorId).items.get(itemId);
     const characters = getPlayerCharacters(actorId);
 
     if (characters.length === 0) {
