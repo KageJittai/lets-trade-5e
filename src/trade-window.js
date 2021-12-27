@@ -20,7 +20,7 @@ export default class TradeWindow extends Application {
             this.data.currencyMax = Object.assign({}, this.data.currencyMax);
             for (let coin in this.data.currencyMax) {
                 this.currency[coin] = 0;
-                
+
                 // Don't include coins which the actor doesn't have any of.
                 if (!this.data.currencyMax[coin]) {
                     delete this.data.currencyMax[coin]
@@ -52,7 +52,7 @@ export default class TradeWindow extends Application {
 
     /** @override */
     get title() {
-        return "Trade Window";
+        return game.i18n.localize("LetsTrade5E.TradeWindowTitle");
     }
 
     /** @override */

@@ -1,7 +1,7 @@
 <form autocomplete="off" onsubmit="event.preventDefault();">
   {{#if currency}}
     <div class="form-group stacked">
-      <label>Currency</label>
+      <label>{{ localize "LetsTrade5E.Currency"}}</label>
       <ul class="currency">
         {{#each currency as |max coin|}}
           <li>
@@ -15,7 +15,7 @@
     </div>
   {{else}}
     <div class="form-group stacked">
-      <label>Item to trade</label>
+      <label>{{ localize "LetsTrade5E.ItemToTrade"}}</label>
       <div class="flexrow">
         <img
           class="profile item-profile"
@@ -28,19 +28,19 @@
 
     {{#if showquantity}}
     <div class="form-group">
-      <label>Quantity</label>
+      <label>{{ localize "LetsTrade5E.Quantity"}}</label>
       <input class="quantity-input" type="text" data-dtype="number" value="{{quantity}}" />
     </div>
     <div class="flexrow">
-      <button class="quantity-quick-btn" data-qsize="one">One</button>
-      <button class="quantity-quick-btn" data-qsize="half">Half</button>
-      <button class="quantity-quick-btn" data-qsize="all">All</button>
+      <button class="quantity-quick-btn" data-qsize="one">{{ localize "LetsTrade5E.One"}}</button>
+      <button class="quantity-quick-btn" data-qsize="half">{{ localize "LetsTrade5E.Half"}}</button>
+      <button class="quantity-quick-btn" data-qsize="all">{{ localize "LetsTrade5E.All"}}</button>
     </div>
     {{/if}}
   {{/if}}
 
   <div class="form-group stacked">
-    <label>Select a character</label>
+    <label>{{ localize "LetsTrade5E.SelectCharacter"}}</label>
     <ul class="directory-list">
       {{#each characters}}
       <li class="actor directory-item flexrow" data-actor-id="{{this.id}}">
@@ -56,7 +56,7 @@
   </div>
 
   <div class="form-group">
-    <button class="btn btn-secondary cancel">Cancel</button>
-    <button class="btn btn-primary submit" disabled>Send Item</button>
+    <button class="btn btn-secondary cancel">{{ localize "LetsTrade5E.ButtonCancel"}}</button>
+    <button class="btn btn-primary submit" disabled>{{ localize "LetsTrade5E.ButtonSend"}}</button>
   </div>
 </form>

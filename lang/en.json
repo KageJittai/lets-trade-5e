@@ -1,0 +1,23 @@
+{
+    "LetsTrade5E.TradeSent": "Trade request sent.",
+    "LetsTrade5E.TradeNoLongerValid": "Trade request is no longer valid.",
+    "LetsTrade5E.TradeAccepted": "{name} accepted your trade request.",
+    "LetsTrade5E.TradeRejected": "{name} rejected your trade request.",
+    "LetsTrade5E.TradeIncomingTitle": "Incoming Trade Request",
+    "LetsTrade5E.TradeDescription": "{name} is sending you {item}. Do you accept?",
+    "LetsTrade5E.TradeDescriptionGM": "{sender} has sent {receiver} {item}",
+    "LetsTrade5E.TradeConfirm": "Confirm",
+    "LetsTrade5E.TradeDeny": "Deny",
+    "LetsTrade5E.TradeWindowTitle": "Trade Window",
+    "LetsTrade5E.NoPCToTradeWith": "No player characters available to trade with.",
+    "LetsTrade5E.Send": "Send to Player",
+    "LetsTrade5E.SelectCharacter": "Select a character",
+    "LetsTrade5E.One": "One",
+    "LetsTrade5E.Half": "Half",
+    "LetsTrade5E.All": "All",
+    "LetsTrade5E.Currency": "Currency",
+    "LetsTrade5E.ItemToTrade": "Item to trade",
+    "LetsTrade5E.Quantity": "Quantity",
+    "LetsTrade5E.ButtonCancel": "Cancel",
+    "LetsTrade5E.ButtonSend": "Send Item"
+}
