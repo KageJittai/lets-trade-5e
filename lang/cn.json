@@ -1,0 +1,23 @@
+{
+    "LetsTrade5E.TradeSent": "已发送交易请求。",
+    "LetsTrade5E.TradeNoLongerValid": "交易请求失效.",
+    "LetsTrade5E.TradeAccepted": "{name}接受了你的交易请求。",
+    "LetsTrade5E.TradeRejected": "{name}拒绝了你的交易请求。",
+    "LetsTrade5E.TradeIncomingTitle": "传入的交易请求",
+    "LetsTrade5E.TradeDescription": "{name}向你发送了{item}。是否接受?",
+    "LetsTrade5E.TradeDescriptionGM": "{sender}向{receiver}发送了{item}",
+    "LetsTrade5E.TradeConfirm": "接受",
+    "LetsTrade5E.TradeDeny": "拒绝",
+    "LetsTrade5E.TradeWindowTitle": "交易窗口",
+    "LetsTrade5E.NoPCToTradeWith": "没有可以交易的玩家角色。",
+    "LetsTrade5E.Send": "发送至玩家",
+    "LetsTrade5E.SelectCharacter": "选择一个角色",
+    "LetsTrade5E.One": "一个",
+    "LetsTrade5E.Half": "一半",
+    "LetsTrade5E.All": "全部",
+    "LetsTrade5E.Currency": "货币",
+    "LetsTrade5E.ItemToTrade": "交易中的物品",
+    "LetsTrade5E.Quantity": "数量",
+    "LetsTrade5E.ButtonCancel": "取消",
+    "LetsTrade5E.ButtonSend": "发送物品"
+}
