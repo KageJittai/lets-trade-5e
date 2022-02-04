@@ -22,6 +22,9 @@ The second player must then confirm the trade with a prompt on their screen, at 
 ## Supported Languages
  - English
  - Deutsch
+ - Spanish
+ - Chinese
+ - Japanese
 
 ## Known issues
 
