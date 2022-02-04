@@ -5,7 +5,7 @@
     "author": "Kage",
     "version": "0.4.1",
     "minimumCoreVersion": "9.232",
-    "compatibleCoreVersion": "9.238",
+    "compatibleCoreVersion": "9.249",
     "minimumSystemVersion": "1.5.6",
     "system": ["dnd5e", "sw5e"],
     "license": "LICENSE",
