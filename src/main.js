@@ -87,7 +87,7 @@ function onCurrencyTradeClick(event) {
     const ele = event.currentTarget.closest(".currency-trade");
 
     const actorId = ele.dataset.actorId;
-    const currency = game.actors.get(actorId).data.data.currency;
+    const currency = game.actors.get(actorId).system.currency;
     const characters = getPlayerCharacters(actorId);
 
     if (characters.length === 0) {

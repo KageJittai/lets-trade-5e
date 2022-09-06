@@ -13,7 +13,7 @@ export default class TradeWindow extends Application {
         this.data = data;
         this._selectedActor = null;
         if (this.data.item)
-            this.quantity = this.data.item.data.data.quantity;
+            this.quantity = this.data.item.system.quantity;
 
         if (this.data.currencyMax) {
             this.currency = {};
@@ -116,7 +116,7 @@ export default class TradeWindow extends Application {
     _quickChangeQuantity(event) {
         event.preventDefault();
         let qsize = event.currentTarget.dataset.qsize;
-        let qmax = this.data.item.data.data.quantity;
+        let qmax = this.data.item.system.quantity;
         let q = 1;
         switch (qsize) {
             case "one":
@@ -138,7 +138,7 @@ export default class TradeWindow extends Application {
      * @param {number} newQuantity
      */
     updateQuantity(newQuantity) {
-        newQuantity = Math.min(Math.max(newQuantity, 1), this.data.item.data.data.quantity);
+        newQuantity = Math.min(Math.max(newQuantity, 1), this.data.item.system.quantity);
         this.quantity = newQuantity;
         this.element.find(".quantity-input")[0].value = this.quantity;
     }

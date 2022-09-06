@@ -103,13 +103,13 @@ export default class TradeRequest {
 
         if (this.item) {
             // Item should exist and have a valid quantity
-            if (this.item.data.data.quantity < this.quantity) {
+            if (this.item.system.quantity < this.quantity) {
                 return false;
             }
         }
         else if (this.currency) {
             // Currency should be between 0 and max.
-            let max = this.sourceActor.data.data.currency;
+            let max = this.sourceActor.system.currency;
             let has_value = false;
             for (let key in this.currency) {
                 if (this.currency[key] > max[key] || this.currency[key] < 0) {
@@ -139,25 +139,25 @@ export default class TradeRequest {
     applyToSource() {
         if (this.item) {
             let item = this.item;
-            if (item.data.data.quantity <= this.quantity) {
+            if (item.system.quantity <= this.quantity) {
                 this.sourceActor.deleteEmbeddedDocuments("Item", [item.id]);
             }
             else {
                 item.update({data: {
-                    quantity: item.data.data.quantity - this.quantity
+                    quantity: item.system.quantity - this.quantity
                 }});
             }
         }
         else {
             const compatibility = getCompatibility(this.sourceActor.sheet);
-            let currency = duplicate(this.sourceActor.data.data.currency);
+            let currency = duplicate(this.sourceActor.system.currency);
             for (let key in this.currency) {
                 if(this.currency[key] > 0) {
                     compatibility.updateCurrency(currency, key, this.currency[key]);
                 }
             }
             this.sourceActor.update({
-                data: {
+                system: {
                     currency: currency
                 }
             });
@@ -169,17 +169,17 @@ export default class TradeRequest {
      */
     applyToDestination() {
         if (this.item) {
-            let itemData = duplicate(this.item.data);
-            itemData.data.quantity = this.quantity;
+            let itemData = duplicate(this.item);
+            itemData.system.quantity = this.quantity;
             this.destinationActor.createEmbeddedDocuments("Item", [itemData]);
         }
         else {
-            let currency = duplicate(this.destinationActor.data.data.currency);
+            let currency = duplicate(this.destinationActor.system.currency);
             for (let key in this.currency) {
                 currency[key] += this.currency[key];
             }
             this.destinationActor.update({
-                data: {
+                system: {
                     currency: currency
                 }
             });
