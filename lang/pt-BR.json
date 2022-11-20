@@ -1,0 +1,23 @@
+{
+    "LetsTrade5E.TradeSent": "Solicitação de troca enviada.",
+    "LetsTrade5E.TradeNoLongerValid": "Solicitação de troca não é mais válida.",
+    "LetsTrade5E.TradeAccepted": "{name} aceitou seu pedido de troca.",
+    "LetsTrade5E.TradeRejected": "{name} negou seu pedido de troca.",
+    "LetsTrade5E.TradeIncomingTitle": "Solicitação de troca recebida",
+    "LetsTrade5E.TradeDescription": "{name} está enviando {item} para você. Aceitar?",
+    "LetsTrade5E.TradeDescriptionGM": "{sender} enviou {item} para {receiver}",
+    "LetsTrade5E.TradeConfirm": "Confirmar",
+    "LetsTrade5E.TradeDeny": "Recusar",
+    "LetsTrade5E.TradeWindowTitle": "Janela de Troca",
+    "LetsTrade5E.NoPCToTradeWith": "Nenhum personagem de jogador disponível para troca.",
+    "LetsTrade5E.Send": "Enviar para Jogador",
+    "LetsTrade5E.SelectCharacter": "Selecione um personagem",
+    "LetsTrade5E.One": "Um",
+    "LetsTrade5E.Half": "Metade",
+    "LetsTrade5E.All": "Todos",
+    "LetsTrade5E.Currency": "Moeda",
+    "LetsTrade5E.ItemToTrade": "Item para Troca",
+    "LetsTrade5E.Quantity": "Quantidade",
+    "LetsTrade5E.ButtonCancel": "Cancelar",
+    "LetsTrade5E.ButtonSend": "Enviar Item"
+}
