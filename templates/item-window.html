@@ -1,0 +1,10 @@
+<h1>{{localize "LetsTrade5E.SelectItem"}}</h1>
+
+<ul class="item-list">
+    {{#each items}}
+    <li data-item-id="{{this.id}}">
+        <img src="{{this.img}}" alt="{{this.name}}" title="{{this.name}}" />
+        <div>{{this.name}}</div>
+    </li>
+    {{/each}}
+</ul>

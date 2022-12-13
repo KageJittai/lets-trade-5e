@@ -1,10 +1,23 @@
-import TradeWindow from "./trade-window.js"
+import ItemWindow from "./item-window.js"
 import {Config} from "./config.js"
-import {receiveTrade, completeTrade, denyTrade, getPlayerCharacters} from "./lets-trade-core.js"
+import {receiveTrade, completeTrade, denyTrade} from "./lets-trade-core.js"
 import {getCompatibility} from "./compatibility.js"
+import { openItemTrade } from "./openItemTrade.js"
+import { openCurrencyTrade } from "./openCurrencyTrade.js"
+
+game.debug = true;
+CONFIG.debug.hooks = true;
 
 Hooks.once("setup", async function () {
-    //loadTemplates([Config.TradeWindowTemplate]);
+    if (game.system.id === "dnd5e") {
+        Hooks.on("renderActorSheet5eCharacter", renderInjectionHook);
+        Hooks.on("renderActorSheet5eCharacterNew", renderInjectionHook);
+    
+        //LootSheet5eNPC support
+        Hooks.on("renderLootSheet5eNPC", renderInjectionHook);
+    } else if (game.system.id === "a5e") {
+        Hooks.on("getActorSheet5eCharacterHeaderButtons", renderHeaderButton);
+    }
 
     game.socket.on(Config.Socket, packet => {
         let data = packet.data;
@@ -29,32 +42,39 @@ Hooks.once("setup", async function () {
 async function renderInjectionHook(sheet, element, character) {
     const actorId = sheet.actor.id;
     const compatibility = getCompatibility(sheet);
-    try {
-        compatibility.currency(element, actorId, onCurrencyTradeClick);
-    }
-    catch (e) {
-        console.error("Let's Trade 5e | Failed to inject currency icon onto character sheet.");
-    }
 
-    let items = compatibility.fetch(element);
-
-    for (let item of items) {
+    if (!compatibility.addHeaderButton) {
         try {
-            compatibility.item(item, actorId, onItemTradeClick);
+            compatibility.currency(element, actorId, onCurrencyTradeClick);
         }
         catch (e) {
-            console.error("Let's Trade 5e | Failed to inject onto item: ", item);
+            console.error("Let's Trade 5e | Failed to inject currency icon onto character sheet.");
         }
-    }
 
-    console.log("Let's Trade 5e | Added trade icons to sheet for actor " + actorId);
+        let items = compatibility.fetch(element);
+
+        for (let item of items) {
+            try {
+                compatibility.item(item, actorId, onItemTradeClick);
+            }
+            catch (e) {
+                console.error("Let's Trade 5e | Failed to inject onto item: ", item);
+            }
+        }
+
+        console.log("Let's Trade 5e | Added trade icons to sheet for actor " + actorId);
+    }
 }
 
-Hooks.on("renderActorSheet5eCharacter", renderInjectionHook);
-Hooks.on("renderActorSheet5eCharacterNew", renderInjectionHook);
-
-//LootSheet5eNPC support
-Hooks.on("renderLootSheet5eNPC", renderInjectionHook);
+function renderHeaderButton(sheet, headers) {
+    console.log("Let's Trade 5e | Header Button Render");
+    headers.unshift({
+        label: "LetsTrade5E.TradeButton",
+        class: "trade-button",
+        icon: "fas fa-balance-scale-right",
+        onclick: onHeaderClick.bind({actorId: sheet.object.id})
+    });
+}
 
 /**
  * Handles the trade event click.
@@ -66,20 +86,7 @@ function onItemTradeClick(event) {
 
     const actorId = ele.dataset.actorId;
     const itemId = ele.dataset.itemId;
-    const item = game.actors.get(actorId).items.get(itemId);
-    const characters = getPlayerCharacters(actorId);
-
-    if (characters.length === 0) {
-        ui.notifications.warn(game.i18n.localize("LetsTrade5E.NoPCToTradeWith"))
-    }
-    else {
-        const tw = new TradeWindow({
-            actorId,
-            item,
-            characters
-        });
-        tw.render(true);
-    }
+    openItemTrade(actorId, itemId)
 }
 
 function onCurrencyTradeClick(event) {
@@ -87,18 +94,18 @@ function onCurrencyTradeClick(event) {
     const ele = event.currentTarget.closest(".currency-trade");
 
     const actorId = ele.dataset.actorId;
-    const currency = game.actors.get(actorId).system.currency;
-    const characters = getPlayerCharacters(actorId);
+    openCurrencyTrade(actorId)
+}
 
-    if (characters.length === 0) {
-        ui.notifications.warn(game.i18n.localize("LetsTrade5E.NoPCToTradeWith"))
-    }
-    else {
-        const tw = new TradeWindow({
-            actorId,
-            currencyMax: currency,
-            characters
-        });
-        tw.render(true);
-    }
+function onHeaderClick(event) {
+    console.log("Let's Trade 5e | Opening item sheet trade dialog for " + this.actorId);
+
+    const actor = game.actors.get(this.actorId);
+    const items = actor.items.filter(item => item.type === "object");
+
+    const itemWindow = new ItemWindow({
+        items,
+        actorId: this.actorId
+    });
+    itemWindow.render(true);
 }
