@@ -246,6 +246,9 @@ const compatibility = {
         updateCurrency: updateCurrencyLootSheet5e,
         parseCurrencyMax: parseCurrencyMaxLootSheet5e
     },
+    "a5e": {
+        updateCurrency: updateCurrencyDefault,
+    },
     "default": {
         currency: currencyDefault,
         fetch: fetchDefault,
@@ -263,6 +266,9 @@ const compatibility = {
  * @returns {object}
  */
 export function getCompatibility(sheet) {
-    const sheetName = sheetCompatibilityName(sheet.options.classes);
+    let sheetName = sheetCompatibilityName(sheet.options.classes);
+    if (game.system.id === "a5e") {
+        sheetName = "a5e";
+    }
     return compatibility[sheetName];
 }

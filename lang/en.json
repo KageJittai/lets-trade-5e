@@ -1,4 +1,5 @@
 {
+    "LetsTrade5E.TradeButton": "Trade",
     "LetsTrade5E.TradeSent": "Trade request sent.",
     "LetsTrade5E.TradeNoLongerValid": "Trade request is no longer valid.",
     "LetsTrade5E.TradeAccepted": "{name} accepted your trade request.",
@@ -12,6 +13,7 @@
     "LetsTrade5E.NoPCToTradeWith": "No player characters available to trade with.",
     "LetsTrade5E.Send": "Send to Player",
     "LetsTrade5E.SelectCharacter": "Select a character",
+    "LetsTrade5E.SelectItem": "Select an Item",
     "LetsTrade5E.One": "One",
     "LetsTrade5E.Half": "Half",
     "LetsTrade5E.All": "All",

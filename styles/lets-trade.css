@@ -49,3 +49,29 @@
     text-align: center;
     margin-right: 2px;
 }
+
+.lets-trade-window .item-list li {
+    list-style: none;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.lets-trade-window .item-list li:hover {
+    text-shadow: 0 0 3px #F00;
+}
+
+.lets-trade-window .item-list li div {
+    height: 1.8rem;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.lets-trade-window .item-list li img {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 5px;
+    display: inline-block;
+}
