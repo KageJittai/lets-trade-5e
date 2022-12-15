@@ -5,9 +5,6 @@ import {getCompatibility} from "./compatibility.js"
 import { openItemTrade } from "./openItemTrade.js"
 import { openCurrencyTrade } from "./openCurrencyTrade.js"
 
-game.debug = true;
-CONFIG.debug.hooks = true;
-
 Hooks.once("setup", async function () {
     if (game.system.id === "dnd5e") {
         Hooks.on("renderActorSheet5eCharacter", renderInjectionHook);
