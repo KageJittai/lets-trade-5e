@@ -4,8 +4,10 @@ import {receiveTrade, completeTrade, denyTrade} from "./lets-trade-core.js"
 import {getCompatibility} from "./compatibility.js"
 import { openItemTrade } from "./openItemTrade.js"
 import { openCurrencyTrade } from "./openCurrencyTrade.js"
+import API from "./api.js"
 
 Hooks.once("setup", async function () {
+    setApi(API)
     if (game.system.id === "dnd5e") {
         Hooks.on("renderActorSheet5eCharacter", renderInjectionHook);
         Hooks.on("renderActorSheet5eCharacterNew", renderInjectionHook);
@@ -105,4 +107,21 @@ function onHeaderClick(event) {
         actorId: this.actorId
     });
     itemWindow.render(true);
+}
+
+/**
+ * Initialization helper, to set API.
+ * @param api to set to game module.
+ */
+export function setApi(api) {
+	const data = game.modules.get("lets-trade-5e");
+	data.api = api;
+}
+/**
+ * Returns the set API.
+ * @returns Api from games module.
+ */
+export function getApi() {
+	const data = game.modules.get("lets-trade-5e");
+	return data.api;
 }
