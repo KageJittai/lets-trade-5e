@@ -9,6 +9,12 @@ Allows player characters to trade with one another. Players must be online to tr
 
 The second player must then confirm the trade with a prompt on their screen, at which time, the items or coins will be transferred between the players.
 
+## API
+
+`game.modules.get("lets-trade-5e").api.openCurrencyTrade(actorId) => void`
+
+`game.modules.get("lets-trade-5e").api.openItemTrade(actorId, itemId) => void`
+
 ## Supported Systems
 - DND5e
 - A5e (Use the Trade button on the sheet header)
