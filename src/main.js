@@ -14,6 +14,16 @@ Hooks.once("setup", async function () {
     
         //LootSheet5eNPC support
         Hooks.on("renderLootSheet5eNPC", renderInjectionHook);
+
+        Hooks.on("dnd5e.getItemContextOptions", (item, contextOptions) => {
+            if (item.actor?.isOwner && !['feat','background','class','subclass','spell'].includes(item.type)) {
+               contextOptions.push({
+                   name: `${game.i18n.localize("LetsTrade5E.Send")}`,
+                   icon: `<i class="fas fa-balance-scale-right"></i>`,
+                   callback: ()=>{openItemTrade(item.actor.id, item.id)}
+                   })
+               }
+           });
     } else if (game.system.id === "a5e") {
         Hooks.on("getActorSheet5eCharacterHeaderButtons", renderHeaderButton);
     }
