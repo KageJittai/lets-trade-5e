@@ -16,7 +16,7 @@ function currencyTidySheet(element, actorId, callback) {
     currencyIcon.dataset.actorId = actorId;
     currencyIcon.addEventListener("click", callback);
 
-    let insertPoint = $("ul.currency li.currency-header", element)[0];
+    let insertPoint = $("ol.currency li.currency-header", element)[0];
     let insert = $(`<li class="currency-header flexrow"></li>`).append(currencyIcon);
     insertPoint.before(insert[0]);
 }

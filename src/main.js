@@ -14,8 +14,18 @@ Hooks.once("setup", async function () {
     
         //LootSheet5eNPC support
         Hooks.on("renderLootSheet5eNPC", renderInjectionHook);
+
+        Hooks.on("dnd5e.getItemContextOptions", (item, contextOptions) => {
+            if (item.actor?.isOwner && !['feat','background','class','subclass','spell'].includes(item.type)) {
+               contextOptions.push({
+                   name: `${game.i18n.localize("LetsTrade5E.Send")}`,
+                   icon: `<i class="fas fa-balance-scale-right"></i>`,
+                   callback: ()=>{openItemTrade(item.actor.id, item.id)}
+                   })
+               }
+           });
     } else if (game.system.id === "a5e") {
-        Hooks.on("getActorSheet5eCharacterHeaderButtons", renderHeaderButton);
+        Hooks.on("getActorSheetHeaderButtons", renderHeaderButton);
     }
 
     game.socket.on(Config.Socket, packet => {
@@ -67,12 +77,14 @@ async function renderInjectionHook(sheet, element, character) {
 
 function renderHeaderButton(sheet, headers) {
     console.log("Let's Trade 5e | Header Button Render");
-    headers.unshift({
-        label: "LetsTrade5E.TradeButton",
-        class: "trade-button",
-        icon: "fas fa-balance-scale-right",
-        onclick: onHeaderClick.bind({actorId: sheet.object.id})
-    });
+    if (sheet.actor.isOwner) {
+        headers.unshift({
+            label: "LetsTrade5E.TradeButton",
+            class: "trade-button",
+            icon: "fas fa-balance-scale-right",
+            onclick: onHeaderClick.bind({actorId: sheet.actor.id})
+        });
+    }
 }
 
 /**
