@@ -25,7 +25,7 @@ Hooks.once("setup", async function () {
                }
            });
     } else if (game.system.id === "a5e") {
-        Hooks.on("getActorSheet5eCharacterHeaderButtons", renderHeaderButton);
+        Hooks.on("getActorSheetHeaderButtons", renderHeaderButton);
     }
 
     game.socket.on(Config.Socket, packet => {
@@ -77,12 +77,14 @@ async function renderInjectionHook(sheet, element, character) {
 
 function renderHeaderButton(sheet, headers) {
     console.log("Let's Trade 5e | Header Button Render");
-    headers.unshift({
-        label: "LetsTrade5E.TradeButton",
-        class: "trade-button",
-        icon: "fas fa-balance-scale-right",
-        onclick: onHeaderClick.bind({actorId: sheet.object.id})
-    });
+    if (sheet.actor.isOwner) {
+        headers.unshift({
+            label: "LetsTrade5E.TradeButton",
+            class: "trade-button",
+            icon: "fas fa-balance-scale-right",
+            onclick: onHeaderClick.bind({actorId: sheet.actor.id})
+        });
+    }
 }
 
 /**
