@@ -11,7 +11,7 @@ export default class ItemWindow extends Application {
      * @override
      * */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: Config.ItemWindowTemplate,
             classes: ["lets-trade-window"],
             width: 500,

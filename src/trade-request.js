@@ -150,7 +150,7 @@ export default class TradeRequest {
         }
         else {
             const compatibility = getCompatibility(this.sourceActor.sheet);
-            let currency = duplicate(this.sourceActor.system.currency);
+            let currency = foundry.utils.duplicate(this.sourceActor.system.currency);
             for (let key in this.currency) {
                 if(this.currency[key] > 0) {
                     compatibility.updateCurrency(currency, key, this.currency[key]);
@@ -169,12 +169,12 @@ export default class TradeRequest {
      */
     applyToDestination() {
         if (this.item) {
-            let itemData = duplicate(this.item);
+            let itemData = foundry.utils.duplicate(this.item);
             itemData.system.quantity = this.quantity;
             this.destinationActor.createEmbeddedDocuments("Item", [itemData]);
         }
         else {
-            let currency = duplicate(this.destinationActor.system.currency);
+            let currency = foundry.utils.duplicate(this.destinationActor.system.currency);
             for (let key in this.currency) {
                 currency[key] += this.currency[key];
             }
