@@ -33,7 +33,7 @@ export default class TradeWindow extends Application {
      * @override
      * */
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             template: Config.TradeWindowTemplate,
             classes: ["lets-trade-window"],
             width: 500,
